@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>zombies galore</title>
+    <link rel="stylesheet" href="tablesort.css">
+    <script src="tablesort.min.js"></script>
+    <script src="zombies.js"></script>
+    <style>
+      html {
+        font: 75% Verdana;
+        background: #fcfcfc;
+        color: #111;
+      }
+      h1 {
+        padding: 4px;
+        border: 1px solid #ccc;
+        border-width: 1px 0;
+        color: green;
+        font-size: 150%;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      p {
+        line-height: 150%;
+        margin: 0.75em 0;
+      }
+      #error {
+        padding: 1em;
+        background: #fee;
+        color: red;
+        font-weight: bold;
+      }
+      a:link {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      #data {
+        width: 100%;
+      }
+      #data th, #data td {
+        padding: 2px 4px;
+      }
+      #data th {
+        background: #d6d6d6;
+      }
+      #data td {
+        background: #eee;
+      }
+      footer {
+        margin: 4em 0 2em;
+        font-size: 75%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Central Vinyl Zombie Directory MMXIV</h1>
+    <p>Click column headers to sort. Links open in a new tab.</p>
+    <p>This page updates automatically every 2 seconds. Individual entries may be up to 10 minutes out of date.</p>
+    <!-- TODO: make this button actually do something -->
+    <!-- <p>Live update is <button id="toggle">?</button></p> -->
+    <p id="error">Please enable JavaScript to view this page.</p>
+    <table id="data" class="sort">
+      <thead>
+        <tr>
+          <th>Nation</th>
+          <th>Action</th>
+          <th>Survivors</th>
+          <th>Zombies</th>
+          <th>Dead</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <footer>
+      <p>
+        This <a href="https://github.com/lfairy/zombie-directory-mmxiv">ZOMBIE DIRECTORY</a> was created by <a href="https://lambda.xyz">lambda fairy</a> on behalf of <a href="http://www.nationstates.net/the_vines">the Vines</a>
+        <br>
+        <a href="http://tristen.ca/tablesort/demo">tablesort</a> by <a href="http://tristen.ca">Tristen Brown</a>
+      </p>
+    </footer>
+  </body>
+</html>
