@@ -13,9 +13,13 @@ import xml.etree.ElementTree as etree
 Status = namedtuple('Status', 'action survivors zombies dead')
 
 
+# Just below 50 requests per 30 seconds
+DELAY = 0.65
+
+
 def call(**kwds):
     query = ('?' + '&'.join(str(k) + '=' + str(v) for k, v in kwds.items())) if kwds else ''
-    for delay in chain([0, 1, 2, 4, 8, 16, 32], repeat(60)):
+    for backoff in chain([1, 2, 4, 8, 15, 30], repeat(60)):
         try:
             handle = urlopen('https://www.nationstates.net/cgi-bin/api.cgi'+query)
             return etree.parse(handle).getroot()
@@ -23,7 +27,7 @@ def call(**kwds):
             print()
             print('** ERROR: {}'.format(e))
             print('Retrying in {} seconds...'.format(delay))
-            sleep(delay)
+            sleep(backoff*DELAY)
 
 
 def get_nations():
@@ -56,7 +60,7 @@ def loop(cache):
             print_progress(i)
             cache[nation] = status
             yield {nation: cache.setdefault(nation, None) for nation in nations}
-            sleep(0.7)  # Just below 50 requests per 30 seconds
+            sleep(DELAY)
 
         print_progress(len(nations))
         print()
