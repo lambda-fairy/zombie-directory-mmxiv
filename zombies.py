@@ -2,8 +2,10 @@
 
 from collections import namedtuple
 import json
+from itertools import chain, repeat
 import os
 from time import sleep
+from urllib.error import URLError
 from urllib.request import urlopen
 import xml.etree.ElementTree as etree
 
@@ -13,8 +15,15 @@ Status = namedtuple('Status', 'action survivors zombies dead')
 
 def call(**kwds):
     query = ('?' + '&'.join(str(k) + '=' + str(v) for k, v in kwds.items())) if kwds else ''
-    handle = urlopen('https://www.nationstates.net/cgi-bin/api.cgi'+query)
-    return etree.parse(handle).getroot()
+    for delay in chain([0, 1, 2, 4, 8, 16, 32], repeat(60)):
+        try:
+            handle = urlopen('https://www.nationstates.net/cgi-bin/api.cgi'+query)
+            return etree.parse(handle).getroot()
+        except URLError as e:
+            print()
+            print('** ERROR: {}'.format(e))
+            print('Retrying in {} seconds...'.format(delay))
+            sleep(delay)
 
 
 def get_nations():
