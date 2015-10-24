@@ -42,7 +42,9 @@ Zombies.prototype.load = function(json) {
     var tr = document.createElement('tr');
     var append = function(textOrElem) {
       var td = document.createElement('td');
-      if (textOrElem !== null && typeof textOrElem === 'object') {
+      if (textOrElem === null) {
+        td.appendChild(document.createTextNode('-'));
+      } else if (textOrElem !== null && typeof textOrElem === 'object') {
         td.appendChild(textOrElem);
       } else {
         td.appendChild(document.createTextNode(textOrElem));
@@ -57,7 +59,7 @@ Zombies.prototype.load = function(json) {
       a.appendChild(document.createTextNode(k));
       return a;
     })());
-    var v = data[k];
+    var v = data[k] || {};
     append(v.action);
     append(v.survivors);
     append(v.zombies);
