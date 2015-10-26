@@ -24,10 +24,11 @@ def call(**kwds):
             handle = urlopen('https://www.nationstates.net/cgi-bin/api.cgi'+query)
             return etree.parse(handle).getroot()
         except URLError as e:
+            delay = backoff * DELAY
             print()
             print('** ERROR: {}'.format(e))
             print('Retrying in {} seconds...'.format(delay))
-            sleep(backoff*DELAY)
+            sleep(delay)
 
 
 def get_nations():
