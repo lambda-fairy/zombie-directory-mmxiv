@@ -74,7 +74,9 @@ Zombies.prototype.load = function(json) {
     append(v.dead);
     this.rows.appendChild(tr);
   }
+  // Reload the interface
   this.sort.refresh();
+  this.signal('');
 };
 
 window.addEventListener('load', function() {
