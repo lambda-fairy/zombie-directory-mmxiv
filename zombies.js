@@ -14,12 +14,20 @@ Zombies.prototype.loop = function() {
   var r = new XMLHttpRequest();
   r.onreadystatechange = function() {
     if (r.readyState === 4) {
-      if (r.status === 200) {
-        this.load(r.responseText);
-        this.timeout = setTimeout(this.loop.bind(this), 2000);
-      } else {
-        this.signal('Something went wrong! I got this response: ' + r.status);
+      switch (r.status) {
+        case 200:
+          this.load(r.responseText);
+        break;
+        case 0:
+          this.signal('Connection failed! Retrying...');
+        break;
+        case 404:
+          this.signal('Could not find zombie data. Make sure the data collection script is running.');
+        break;
+        default:
+          this.signal('Something went wrong! (Error ' + r.status + ')');
       }
+      this.timeout = setTimeout(this.loop.bind(this), 2000);
     }
   }.bind(this);
   r.open('GET', 'zombies.json', true);
