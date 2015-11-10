@@ -6,6 +6,7 @@ from itertools import chain, repeat
 import os
 from time import sleep
 from urllib.error import URLError
+from urllib.parse import urlencode
 from urllib.request import urlopen
 import xml.etree.ElementTree as etree
 
@@ -18,10 +19,11 @@ DELAY = 0.65
 
 
 def call(**kwds):
-    query = ('?' + '&'.join(str(k) + '=' + str(v) for k, v in kwds.items())) if kwds else ''
+    query = ('?' + urlencode(kwds)) if kwds else ''
+    url = 'https://www.nationstates.net/cgi-bin/api.cgi' + query
     for backoff in chain([1, 2, 4, 8, 15, 30], repeat(60)):
         try:
-            handle = urlopen('https://www.nationstates.net/cgi-bin/api.cgi'+query)
+            handle = urlopen(url)
             return etree.parse(handle).getroot()
         except URLError as e:
             delay = backoff * DELAY
