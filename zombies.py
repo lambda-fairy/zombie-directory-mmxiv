@@ -67,7 +67,7 @@ def loop(cache):
         print()
 
 
-if __name__ == '__main__':
+def main():
     filename = 'cache.json'
     tempname = filename + '.part'
 
@@ -83,3 +83,10 @@ if __name__ == '__main__':
         with open(tempname, 'w') as outfile:
             json.dump({k: (v._asdict() if v else None) for k, v in output.items()}, outfile, sort_keys=True)
         os.rename(tempname, filename)
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\nAu revoir~!')
