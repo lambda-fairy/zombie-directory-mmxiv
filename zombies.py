@@ -45,7 +45,7 @@ def get_nations():
 
 def get_status(nation):
     try:
-        root = call(_return_on_404=True, nation=nation, q='zombie')
+        root = call(_raise_on_404=True, nation=nation, q='zombie')
         zombie = root[0]
         return Status(
                 action=zombie[0].text,
