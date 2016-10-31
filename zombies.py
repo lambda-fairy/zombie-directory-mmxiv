@@ -68,7 +68,7 @@ def loop(cache):
 
 
 if __name__ == '__main__':
-    filename = 'cache.{}.json'.format(options.region)
+    filename = 'cache.json'
     tempname = filename + '.part'
 
     # Load initial data

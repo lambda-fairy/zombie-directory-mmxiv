@@ -1,5 +1,5 @@
 *.py[cdo]
 __pycache__/
 
-cache.*.json
-cache.*.json.part
+cache.json
+cache.json.part

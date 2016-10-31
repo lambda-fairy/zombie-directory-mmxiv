@@ -30,7 +30,7 @@ Zombies.prototype.loop = function() {
       this.timeout = setTimeout(this.loop.bind(this), 2000);
     }
   }.bind(this);
-  r.open('GET', 'zombies.json', true);
+  r.open('GET', 'cache.json', true);
   r.send(null);
 };
 
