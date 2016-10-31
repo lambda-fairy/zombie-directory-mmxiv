@@ -50,9 +50,9 @@ Zombies.prototype.load = function(json) {
     var tr = document.createElement('tr');
     var append = function(textOrElem) {
       var td = document.createElement('td');
-      if (textOrElem === null) {
+      if (textOrElem === null || textOrElem === undefined) {
         td.appendChild(document.createTextNode('-'));
-      } else if (textOrElem !== null && typeof textOrElem === 'object') {
+      } else if (typeof textOrElem === 'object') {
         td.appendChild(textOrElem);
       } else {
         td.appendChild(document.createTextNode(textOrElem));
