@@ -27,7 +27,11 @@ Unpack this repository into your web space:
     git clone https://github.com/lfairy/zombie-directory-mmxiv.git
     cd zombie-directory-mmxiv
 
-Run the script:
+Adjust options:
+
+    vi options.py
+
+Then run the script:
 
     ./zombies.py
 

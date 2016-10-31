@@ -10,12 +10,10 @@ from urllib.parse import urlencode
 from urllib.request import urlopen
 import xml.etree.ElementTree as etree
 
+import options
+
 
 Status = namedtuple('Status', 'action survivors zombies dead')
-
-
-# Just below 50 requests per 30 seconds
-DELAY = 0.65
 
 
 def call(**kwds):
@@ -26,7 +24,7 @@ def call(**kwds):
             handle = urlopen(url)
             return etree.parse(handle).getroot()
         except URLError as e:
-            delay = backoff * DELAY
+            delay = backoff * options.delay
             print()
             print('** ERROR: {}'.format(e))
             print('Retrying in {} seconds...'.format(delay))
@@ -34,7 +32,7 @@ def call(**kwds):
 
 
 def get_nations():
-    root = call(region='pony_lands', q='nations')
+    root = call(region=options.region, q='nations')
     return frozenset(root[0].text.split(':'))
 
 
@@ -63,14 +61,14 @@ def loop(cache):
             print_progress(i)
             cache[nation] = status
             yield {nation: cache.setdefault(nation, None) for nation in nations}
-            sleep(DELAY)
+            sleep(options.delay)
 
         print_progress(len(nations))
         print()
 
 
 if __name__ == '__main__':
-    filename = 'zombies.json'
+    filename = 'cache.{}.json'.format(options.region)
     tempname = filename + '.part'
 
     # Load initial data
