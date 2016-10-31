@@ -16,7 +16,7 @@ import options
 Status = namedtuple('Status', 'action survivors zombies dead')
 
 
-def call(**kwds):
+def call(*, _raise_on_404=False, **kwds):
     query = ('?' + urlencode(kwds)) if kwds else ''
     url = 'https://www.nationstates.net/cgi-bin/api.cgi' + query
     for backoff in chain([1, 2, 4, 8, 15, 30], repeat(60)):
@@ -24,11 +24,18 @@ def call(**kwds):
             handle = urlopen(url)
             return etree.parse(handle).getroot()
         except URLError as e:
+            if _raise_on_404 and getattr(e, 'code', None) == 404:
+                raise FourOhFour() from e
             delay = backoff * options.delay
             print()
             print('** ERROR: {}'.format(e))
             print('Retrying in {} seconds...'.format(delay))
             sleep(delay)
+
+
+class FourOhFour(Exception):
+    """Raised by ``call`` when the option ``_raise_on_404`` is True."""
+    pass
 
 
 def get_nations():
@@ -37,13 +44,18 @@ def get_nations():
 
 
 def get_status(nation):
-    root = call(nation=nation, q='zombie')
-    zombie = root[0]
-    return Status(
-            action=zombie[0].text,
-            survivors=int(zombie[1].text),
-            zombies=int(zombie[2].text),
-            dead=int(zombie[3].text))
+    try:
+        root = call(_return_on_404=True, nation=nation, q='zombie')
+        zombie = root[0]
+        return Status(
+                action=zombie[0].text,
+                survivors=int(zombie[1].text),
+                zombies=int(zombie[2].text),
+                dead=int(zombie[3].text))
+    except FourOhFour:
+        print()
+        print('** WARNING: nation {} has ceased to exist!'.format(nation))
+        return None
 
 
 def loop(cache):
