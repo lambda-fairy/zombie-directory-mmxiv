@@ -1,11 +1,11 @@
 ZOMBIE DIRECTORY MMXIV
 ======================
 
-[NationStates][] is an online government simulation game, created by Max Barry.
+[NationStates] is an online government simulation game, created by Max Barry.
 
-Every year on Halloween, the world of NationStates falls to a [zombie infestation][]. Effectively countering this epidemic (or proliferating it, if you're that kind of person) requires close cooperation between players.
+Every year on Halloween, the world of NationStates falls to a [zombie infestation]. Effectively countering this epidemic (or proliferating it, if you're that kind of person) requires close cooperation between players.
 
-The **ZDMMXIV** helps these players with their efforts, by collating relevant zombie data from the [NationStates API][]. This information is displayed on a web page which is updated in real time.
+The **ZDMMXIV** helps these players with their efforts, by collating relevant zombie data from the [NationStates API]. This information is displayed on a web page which is updated in real time.
 
 
 Dependencies
